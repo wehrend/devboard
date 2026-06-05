@@ -4,6 +4,8 @@ import { Input } from "../../components/ui/input"
 import { Button } from "../../components/ui/button"
 import { Link } from "react-router-dom"
 import { useState } from "react"
+import BoardCard from "../BoardOverview/components/BoardCard"
+import BoardColumn from "./components/BoardColumn"
 
 export default function BoardDetail() {
   const [isEditingBoardName, setEditingBoardName] = useState(false)
@@ -60,6 +62,11 @@ export default function BoardDetail() {
             </Button>
           </Link>
           {renderBoardDetailHeader()}
+        </div>
+        <div className="mt-4 grid grid-cols-3 gap-4">
+          <BoardColumn title="ToDo" />
+          <BoardColumn title="inProgress" />
+          <BoardColumn title="Done" />
         </div>
       </div>
     </>
