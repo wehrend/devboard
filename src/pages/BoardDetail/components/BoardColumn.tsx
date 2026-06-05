@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card"
+import TaskCard from "../../BoardOverview/components/TaskCard"
 
 export default function BoardColumn({ title }: { title: string }) {
   return (
@@ -20,7 +21,9 @@ export default function BoardColumn({ title }: { title: string }) {
           </Button>
         </CardAction>
       </CardHeader>
-      <CardContent>Inhalt </CardContent>
+      <CardContent>
+        <TaskCard />
+      </CardContent>
 
       {/* <CardFooter>Footer </CardFooter> */}
     </Card>
