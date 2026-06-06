@@ -14,16 +14,16 @@ export default function BoardOverview() {
   ])
 
   return (
-    <div className="container">
-      <div className="flex flex-row place-content-between bg-red-50">
+    <>
+      <div className="place-content-betwee flex flex-row">
         <h1 className="text-xl font-bold">Meine Boards</h1>
         <Button>Neues Board</Button>
       </div>
-      <div className="grid grid-cols-3 gap-4 bg-red-300 px-4">
+      <div className="grid grid-cols-3 gap-4 ">
         {boards.map((board) => {
           return <BoardCard board={board} />
         })}
       </div>
-    </div>
+    </>
   )
 }

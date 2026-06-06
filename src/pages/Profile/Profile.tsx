@@ -12,7 +12,7 @@ export default function Profile() {
   const [username, setUsername] = useState("Sven")
 
   return (
-    <div className="mx-auto max-w-md">
+    <div className="max-w-md">
       <h1 className="mb-6 text-2xl font-bold">Profil</h1>
       <Card>
         <CardHeader>
@@ -24,7 +24,7 @@ export default function Profile() {
         <CardContent>
           <div className="flex flex-col gap-1">
             <label>Benutzername</label>
-            <input id="username" value={username}/>
+            <input id="username" value={username} />
             <Button className="w-fit">Speichern</Button>
           </div>
         </CardContent>
