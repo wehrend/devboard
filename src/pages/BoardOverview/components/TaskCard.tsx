@@ -8,13 +8,14 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card"
+import type { Task } from "src/types/board.type"
 
-export default function TaskCard() {
+export default function TaskCard({ task }: { task: Task }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Titel</CardTitle>
-        <CardDescription>Beschreibung</CardDescription>
+        <CardTitle>{task.title}</CardTitle>
+        <CardDescription>{task.description}</CardDescription>
         <CardAction>
           <Button variant="ghost" size="icon-lg">
             <Trash2 />

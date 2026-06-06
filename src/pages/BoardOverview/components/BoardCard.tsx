@@ -8,14 +8,17 @@ import {
 } from "../../../components/ui/card"
 import { Button } from "../../../components/ui/button"
 import { Link } from "react-router-dom"
+import type { Board } from "src/types/board.type"
 
-export default function BoardCard() {
+export default function BoardCard({ board }: { board: Board }) {
   return (
-    <Link to={`/boards/1`}>
+    <Link to={`/boards/${board.id}`}>
       <Card className="border border-black transition-shadow hover:shadow-md">
         <CardHeader>
-          <CardTitle>Name von Board</CardTitle>
-          <CardDescription>3 Spalten - 0 Tasks</CardDescription>
+          <CardTitle>{board.title}</CardTitle>
+          <CardDescription>
+            3 Spalten - {board.tasks.length} Tasks
+          </CardDescription>
           <CardAction>
             <Button
               className="text-muted-foreground hover:text-destructive"

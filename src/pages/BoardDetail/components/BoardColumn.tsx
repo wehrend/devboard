@@ -10,7 +10,13 @@ import {
 } from "../../../components/ui/card"
 import TaskCard from "../../BoardOverview/components/TaskCard"
 
-export default function BoardColumn({ title }: { title: string }) {
+export default function BoardColumn({
+  title,
+  tasks,
+}: {
+  title: string
+  tasks: Task[]
+}) {
   return (
     <Card>
       <CardHeader className="rounded-lg border-b border-black bg-gray-50">
@@ -22,7 +28,9 @@ export default function BoardColumn({ title }: { title: string }) {
         </CardAction>
       </CardHeader>
       <CardContent>
-        <TaskCard />
+        {tasks.map((task) => {
+          return <TaskCard task={task} />
+        })}
       </CardContent>
 
       {/* <CardFooter>Footer </CardFooter> */}
