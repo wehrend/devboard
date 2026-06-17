@@ -12,7 +12,10 @@ import type { Task } from "src/types/board.type"
 
 export default function TaskCard({ task }: { task: Task }) {
   return (
-    <Card>
+    <Card
+      draggable={true}
+      onDragStart={(e) => e.dataTransfer.setData("taskId", task.id)}
+    >
       <CardHeader>
         <CardTitle>{task.title}</CardTitle>
         <CardDescription>{task.description}</CardDescription>
