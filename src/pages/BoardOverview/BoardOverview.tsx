@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useReducer, useState } from "react"
 import { Button } from "../../components/ui/button"
 import { Card } from "../../components/ui/card"
 import BoardCard from "./components/BoardCard"
@@ -16,17 +16,34 @@ import {
   DialogTrigger,
 } from "src/components/ui/dialog"
 import { Input } from "src/components/ui/input"
+import { getBoards } from "src/lib/api"
+import { useBoardOverviewReducer } from "src/hooks/boardsOverviewReducer"
+import { data } from "react-router-dom"
 
 export default function BoardOverview() {
-  const [boards, setBoards] = useState<Board[]>([
-    {
-      id: "1",
-      title: "test",
-      tasks: [{ id: "1", title: "ABC", column: "ToDo", description: "DEF" }],
-    },
-  ])
+  const [boards, boardsDispatch] = useReducer(
+    useBoardOverviewReducer,
+    [],
+    getBoards
+  )
 
   const [boardNameInput, setBoardNameInput] = useState("Neues Board")
+
+  function handleAddNewBoard() {
+    const newBoard: Board = {
+      id: String(Math.random()),
+      title: boardNameInput,
+      tasks: [],
+    }
+
+    boardsDispatch({ type: "ADD", data: newBoard })
+    setBoardNameInput("")
+  }
+
+  function handleDeleteBoard(id: string) {
+    console.log("delete board")
+    boardsDispatch({ type: "DELETE", data: { id: id, title: "", tasks: [] } })
+  }
 
   return (
     <>
@@ -59,7 +76,7 @@ export default function BoardOverview() {
                 <Button variant={"outline"}>Abbrechen</Button>
               </DialogClose>
               <DialogClose>
-                <Button>Speichern</Button>
+                <Button onClick={handleAddNewBoard}>Speichern</Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>
@@ -67,7 +84,7 @@ export default function BoardOverview() {
       </div>
       <div className="grid grid-cols-3 gap-4">
         {boards.map((board) => {
-          return <BoardCard board={board} />
+          return <BoardCard board={board} onDelete={handleDeleteBoard} />
         })}
       </div>
     </>

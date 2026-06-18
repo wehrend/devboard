@@ -8,19 +8,25 @@ type BoardsOverviewAction = {
   data: Board
 }
 
-export default function useBoardOverviewReducer(
-  prevstate: BoardsOverviewState,
+export function useBoardOverviewReducer(
+  prevState: BoardsOverviewState,
   action: BoardsOverviewAction
 ) {
+  let newState = prevState
   switch (action.type) {
     case "ADD": {
-      const newState = [...prevstate, action.data]
-      saveBoards(newState)
-      return newState
-    }
-    case "DELETE":
+      newState = [...prevState, action.data]
       break
+    }
+    case "DELETE": {
+      newState = prevState.filter((board) => board.id !== action.data.id)
+      console.log(newState)
+      break
+    }
     default:
       break
   }
+
+  saveBoards(newState)
+  return newState
 }
