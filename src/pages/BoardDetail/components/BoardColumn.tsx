@@ -20,16 +20,25 @@ export default function BoardColumn({
 }) {
   const [isDragHover, setIsDragHover] = useState(false)
 
-  function isIdInTasks(id: string): boolean {
+  function isTaskInTasks(id: string): boolean {
     return tasks.some((task) => task.id === id)
   }
 
   function handleDragHover(event: React.DragEvent<HTMLDivElement>) {
     const taskId = event.dataTransfer.getData("taskId")
-    if (!isIdInTasks(taskId)) {
+    if (!isTaskInTasks(taskId)) {
       setIsDragHover(true)
     } else {
       setIsDragHover(false)
+    }
+  }
+
+  function handleDrop(event: React.DragEvent<HTMLDivElement>) {
+    const column = event.dataTransfer.getData("column")
+    if (isTaskInTasks(column)) {
+      setIsDragHover(false)
+    } else {
+      // call function to call move task to this column
     }
   }
 

@@ -3,21 +3,53 @@ import { Input } from "../../components/ui/input"
 
 import { Button } from "../../components/ui/button"
 import { Link, useParams } from "react-router-dom"
-import { useState } from "react"
+import { useReducer, useState } from "react"
 import BoardCard from "../BoardOverview/components/BoardCard"
 import BoardColumn from "./components/BoardColumn"
-import type { Board } from "src/types/board.type"
+import type { Board, Task } from "src/types/board.type"
+import { getBoardById } from "src/lib/api"
+import { useBoardDetailReducer } from "src/hooks/boardsDetailReducer"
 
 export default function BoardDetail() {
   const { id } = useParams()
-  const [isEditingBoardName, setEditingBoardName] = useState(false)
-  const [boardName, setBoardName] = useState("Name des Boards")
+  const [isEditingBoardName, setIsEditingBoardName] = useState(false)
+  const [boardName, setBoardName] = useState("")
+  const boardFromLocalStorage = getBoardById(id ?? "") ?? {
+    id: "",
+    title: "",
+    tasks: [],
+  }
+  const [isEditTaskDialogOpen, setIsEditTaskDialogOpen] = useState(true)
+  const [editTask, setEditTask] = useState<Task | undefined>()
 
-  const [board, setBoard] = useState<Board>({
-    id: "1",
-    title: "test",
-    tasks: [{ id: "1", title: "ABC", column: "ToDo", description: "DEF" }],
-  })
+  const [board, dispatchBoard] = useReducer(
+    useBoardDetailReducer,
+    boardFromLocalStorage
+  )
+
+  function handleAddTask(task: Task) {
+    dispatchBoard({ type: "ADD_TASK", data: task })
+  }
+
+  function handleDeleteTask(task: Task) {
+    dispatchBoard({ type: "DELETE_TASK", data: task })
+  }
+
+  function handleEditTask(task: Task) {
+    console.log(task)
+    setEditTask(task)
+    setIsEditTaskDialogOpen(true)
+  }
+
+  function handleEditBoardTitle() {
+    setIsEditingBoardName(true)
+    setBoardName(board.title)
+  }
+
+  function handleSubmitEditBoardTitle() {
+    dispatchBoard({ type: "UPDATE_BOARD_NAME", data: boardName })
+    setIsEditingBoardName(false)
+  }
 
   function renderBoardDetailHeader() {
     if (isEditingBoardName) {
@@ -31,7 +63,7 @@ export default function BoardDetail() {
           <Button
             variant="ghost"
             size="icon-lg"
-            onClick={() => setEditingBoardName(false)}
+            onClick={handleSubmitEditBoardTitle}
           >
             <Check />
           </Button>
@@ -47,12 +79,8 @@ export default function BoardDetail() {
     } else {
       return (
         <>
-          <h1 className="text-2xl font-bold">{boardName}</h1>
-          <Button
-            variant="ghost"
-            size="icon-lg"
-            onClick={() => setEditingBoardName(true)}
-          >
+          <h1 className="text-2xl font-bold">{board.title}</h1>
+          <Button variant="ghost" size="icon-lg" onClick={handleEditBoardTitle}>
             <Pencil />
           </Button>
         </>
