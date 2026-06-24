@@ -37,18 +37,21 @@ import {
   SelectValue,
 } from "src/components/ui/select"
 import { Textarea } from "src/components/ui/textarea"
+import type { Task } from "src/types/board.type"
 
 export default function BoardColumn({
   title,
   tasks,
+  onAddTask,
 }: {
-  title: string
+  title: "ToDo" | "InProgress" | "Done"
   tasks: Task[]
+  onAddTask: (task: Task) => void
 }) {
   const [isDragHover, setIsDragHover] = useState(false)
-  const [taskTitle, setTaskTitle] = useState<string>()
-  const [taskDescription, setTaskDescription] = useState<string>()
-  const [assignedTo, setAssignedTo] = useState<string>()
+  const [taskTitle, setTaskTitle] = useState<string>("")
+  const [taskDescription, setTaskDescription] = useState<string>("")
+  const [assignedTo, setAssignedTo] = useState<string>("")
   const [date, setDate] = useState<Date>()
 
   function isTaskInTasks(id: string): boolean {
@@ -74,13 +77,25 @@ export default function BoardColumn({
   }
 
   function handleAddNewTask() {
-    console.log(
-      "Add new task with title: ",
-      taskTitle,
-      taskDescription,
-      assignedTo,
-      date
-    )
+    const newTask: Task = {
+      id: String(Math.random()),
+      title: taskTitle,
+      description: taskDescription ?? "",
+      column: title,
+      deadline: date?.toISOString() ?? undefined,
+    }
+    //   console.log(
+    //     "Add new task with title: ",
+    //     taskTitle,
+    //     taskDescription,
+    //     assignedTo,
+    //     date
+    //   )
+    onAddTask(newTask)
+    setTaskTitle("")
+    setTaskDescription("")
+    setAssignedTo("")
+    setDate(undefined)
   }
 
   return (

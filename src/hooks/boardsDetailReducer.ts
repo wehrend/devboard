@@ -1,9 +1,15 @@
-import type { Board } from "src/types/board.type"
+import { saveBoard } from "src/lib/api"
+import type { Board, Task } from "src/types/board.type"
 
-type BoardDetailAction = {
-  type: "UPDATE_BOARD_NAME"
-  data: string
-}
+type BoardDetailAction =
+  | {
+      type: "UPDATE_BOARD_NAME"
+      data: string
+    }
+  | {
+      type: "ADD_TASK"
+      data: Task
+    }
 
 export function useBoardDetailReducer(
   prevState: Board,
@@ -17,7 +23,16 @@ export function useBoardDetailReducer(
         ...prevState,
         title: action.data,
       }
+      break
+    }
+    case "ADD_TASK": {
+      newState = {
+        ...prevState,
+        tasks: [...prevState.tasks, action.data],
+      }
+      break
     }
   }
+  saveBoard(newState)
   return newState
 }
