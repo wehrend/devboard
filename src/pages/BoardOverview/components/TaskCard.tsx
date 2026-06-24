@@ -10,7 +10,13 @@ import {
 } from "../../../components/ui/card"
 import type { Task } from "src/types/board.type"
 
-export default function TaskCard({ task }: { task: Task }) {
+export default function TaskCard({
+  task,
+  onDeleteTask,
+}: {
+  task: Task
+  onDeleteTask: (task: Task) => void
+}) {
   return (
     <Card
       draggable={true}
@@ -25,7 +31,11 @@ export default function TaskCard({ task }: { task: Task }) {
             : ""}
         </CardDescription>
         <CardAction>
-          <Button variant="ghost" size="icon-lg">
+          <Button
+            variant="ghost"
+            size="icon-lg"
+            onClick={() => onDeleteTask(task)}
+          >
             <Trash2 />
           </Button>
         </CardAction>

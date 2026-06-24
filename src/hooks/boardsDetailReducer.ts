@@ -7,7 +7,7 @@ type BoardDetailAction =
       data: string
     }
   | {
-      type: "ADD_TASK"
+      type: "ADD_TASK" | "DELETE_TASK"
       data: Task
     }
 
@@ -30,6 +30,14 @@ export function useBoardDetailReducer(
         ...prevState,
         tasks: [...prevState.tasks, action.data],
       }
+      break
+    }
+    case "DELETE_TASK": {
+      newState = { ...prevState }
+      const newTasks = prevState.tasks.filter(
+        (task) => task.id !== action.data.id
+      )
+      newState.tasks = newTasks
       break
     }
   }

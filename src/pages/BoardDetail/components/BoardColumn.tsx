@@ -43,10 +43,12 @@ export default function BoardColumn({
   title,
   tasks,
   onAddTask,
+  onDeleteTask,
 }: {
   title: "ToDo" | "InProgress" | "Done"
   tasks: Task[]
   onAddTask: (task: Task) => void
+  onDeleteTask: (task: Task) => void
 }) {
   const [isDragHover, setIsDragHover] = useState(false)
   const [taskTitle, setTaskTitle] = useState<string>("")
@@ -193,7 +195,7 @@ export default function BoardColumn({
           </div>
         )}
         {tasks.map((task) => {
-          return <TaskCard task={task} />
+          return <TaskCard onDeleteTask={onDeleteTask} task={task} />
         })}
       </CardContent>
 

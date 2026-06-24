@@ -102,16 +102,19 @@ export default function BoardDetail() {
         <div className="mt-4 grid grid-cols-3 gap-4">
           <BoardColumn
             onAddTask={handleAddTask}
+            onDeleteTask={handleDeleteTask}
             title="ToDo"
             tasks={board.tasks.filter((task) => task.column === "ToDo")}
           />
           <BoardColumn
             onAddTask={handleAddTask}
-            title="inProgress"
+            onDeleteTask={handleDeleteTask}
+            title="InProgress"
             tasks={board.tasks.filter((task) => task.column === "InProgress")}
           />
           <BoardColumn
             onAddTask={handleAddTask}
+            onDeleteTask={handleDeleteTask}
             title="Done"
             tasks={board.tasks.filter((task) => task.column === "Done")}
           />
