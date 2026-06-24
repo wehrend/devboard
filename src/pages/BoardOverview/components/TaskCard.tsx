@@ -13,14 +13,17 @@ import type { Task } from "src/types/board.type"
 export default function TaskCard({
   task,
   onDeleteTask,
+  handleEditTask,
 }: {
   task: Task
   onDeleteTask: (task: Task) => void
+  handleEditTask: (task: Task) => void
 }) {
   return (
     <Card
       draggable={true}
       onDragStart={(e) => e.dataTransfer.setData("taskId", task.id)}
+      onClick={() => handleEditTask(task)}
     >
       <CardHeader>
         <CardTitle>{task.title}</CardTitle>

@@ -9,6 +9,7 @@ import BoardColumn from "./components/BoardColumn"
 import type { Board, Task } from "src/types/board.type"
 import { getBoardById } from "src/lib/api"
 import { useBoardDetailReducer } from "src/hooks/boardsDetailReducer"
+import TaskDialog from "./components/TaskDialog"
 
 export default function BoardDetail() {
   const { id } = useParams()
@@ -19,6 +20,7 @@ export default function BoardDetail() {
     title: "",
     tasks: [],
   }
+
   const [isEditTaskDialogOpen, setIsEditTaskDialogOpen] = useState(true)
   const [editTask, setEditTask] = useState<Task | undefined>()
 
@@ -99,24 +101,36 @@ export default function BoardDetail() {
           </Link>
           {renderBoardDetailHeader()}
         </div>
+        <TaskDialog
+          key={editTask?.id ?? "empty-0"}
+          open={isEditTaskDialogOpen}
+          handleSubmitUpdate={(task) => {}}
+          handleOpenChange={setIsEditTaskDialogOpen}
+          task={
+            editTask ?? { id: "", title: "", description: "", column: "ToDo" }
+          }
+        />
         <div className="mt-4 grid grid-cols-3 gap-4">
           <BoardColumn
             onAddTask={handleAddTask}
             onDeleteTask={handleDeleteTask}
             title="ToDo"
             tasks={board.tasks.filter((task) => task.column === "ToDo")}
+            handleEditTask={handleEditTask}
           />
           <BoardColumn
             onAddTask={handleAddTask}
             onDeleteTask={handleDeleteTask}
             title="InProgress"
             tasks={board.tasks.filter((task) => task.column === "InProgress")}
+            handleEditTask={handleEditTask}
           />
           <BoardColumn
             onAddTask={handleAddTask}
             onDeleteTask={handleDeleteTask}
             title="Done"
             tasks={board.tasks.filter((task) => task.column === "Done")}
+            handleEditTask={handleEditTask}
           />
         </div>
       </div>
