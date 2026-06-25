@@ -17,37 +17,68 @@ export default function BoardColumn({
   tasks,
   onAddTask,
   onDeleteTask,
+  onUpdateTaskStatus,
   handleEditTask,
 }: {
   title: "ToDo" | "InProgress" | "Done"
   tasks: Task[]
   onAddTask: (task: Task) => void
   onDeleteTask: (task: Task) => void
+  onUpdateTaskStatus: (
+    id: string,
+    newColumn: "ToDo" | "InProgress" | "Done"
+  ) => void
   handleEditTask: (task: Task) => void
 }) {
   const [isDragHover, setIsDragHover] = useState(false)
 
   const [isTaskDialogOpen, setIsTaskDialogOpen] = useState(false)
 
-  function isTaskInTasks(id: string): boolean {
-    return tasks.some((task) => task.id === id)
+  function isTaskInTasks(column: string | null): boolean {
+    return column === title.toLowerCase()
+  }
+
+  function getColumnFromDraggedItem(dataTransfer: DataTransfer): string | null {
+    let column: string | null = null
+    dataTransfer.types.forEach((type) => {
+      if (type.startsWith("column-")) {
+        column = type.replace("column-", "")
+      }
+    })
+    return column
+  }
+
+  function getIdFromDraggedItem(dataTransfer: DataTransfer): string | null {
+    let column: string | null = null
+    dataTransfer.types.forEach((type) => {
+      if (type.startsWith("id-")) {
+        column = type.replace("id-", "")
+      }
+    })
+    return column
   }
 
   function handleDragHover(event: React.DragEvent<HTMLDivElement>) {
-    const taskId = event.dataTransfer.getData("taskId")
-    if (!isTaskInTasks(taskId)) {
-      setIsDragHover(true)
-    } else {
+    event.preventDefault()
+    const column = getColumnFromDraggedItem(event.dataTransfer)
+    console.log(column)
+    if (isTaskInTasks(column)) {
       setIsDragHover(false)
+    } else {
+      setIsDragHover(true)
     }
   }
 
   function handleDrop(event: React.DragEvent<HTMLDivElement>) {
-    const column = event.dataTransfer.getData("column")
+    const column = getColumnFromDraggedItem(event.dataTransfer)
+    const id = getIdFromDraggedItem(event.dataTransfer)
     if (isTaskInTasks(column)) {
       setIsDragHover(false)
     } else {
       // call function to call move task to this column
+      if (!isTaskInTasks(column) && id !== null) {
+        onUpdateTaskStatus(id, title)
+      }
     }
   }
 
@@ -58,7 +89,7 @@ export default function BoardColumn({
   return (
     <Card
       className={`rounded-lg border border-black bg-gray-50 ${isDragHover && "border-5 border-primary"}`}
-      onDrop={() => setIsDragHover(false)}
+      onDrop={handleDrop}
       onDragEnter={handleDragHover}
       onDragOver={handleDragHover}
       onDragLeave={() => setIsDragHover(false)}

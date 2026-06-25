@@ -23,7 +23,10 @@ export default function TaskCard({
     <Card
       className="hover:cursor-pointer"
       draggable={true}
-      onDragStart={(e) => e.dataTransfer.setData("taskId", task.id)}
+      onDragStart={(e) => {
+        e.dataTransfer.setData(`column-${task.column}`, "")
+        e.dataTransfer.setData(`id-${task.id}`, "")
+      }}
       onClick={() => handleEditTask(task)}
     >
       <CardHeader>
