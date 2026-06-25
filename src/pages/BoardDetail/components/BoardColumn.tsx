@@ -1,43 +1,16 @@
-import { CalendarIcon, Plus } from "lucide-react"
+import { Plus } from "lucide-react"
 import { Button } from "../../../components/ui/button"
 import {
   Card,
   CardAction,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card"
 import TaskCard from "../../BoardOverview/components/TaskCard"
 import { useState } from "react"
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "src/components/ui/dialog"
-import { Input } from "src/components/ui/input"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "src/components/ui/popover"
-import { Calendar } from "src/components/ui/calendar"
-import { format } from "date-fns"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "src/components/ui/select"
-import { Textarea } from "src/components/ui/textarea"
 import type { Task } from "src/types/board.type"
+import TaskDialog from "./TaskDialog"
 
 export default function BoardColumn({
   title,
@@ -53,10 +26,8 @@ export default function BoardColumn({
   handleEditTask: (task: Task) => void
 }) {
   const [isDragHover, setIsDragHover] = useState(false)
-  const [taskTitle, setTaskTitle] = useState<string>("")
-  const [taskDescription, setTaskDescription] = useState<string>("")
-  const [assignedTo, setAssignedTo] = useState<string>("")
-  const [date, setDate] = useState<Date>()
+
+  const [isTaskDialogOpen, setIsTaskDialogOpen] = useState(false)
 
   function isTaskInTasks(id: string): boolean {
     return tasks.some((task) => task.id === id)
@@ -80,26 +51,8 @@ export default function BoardColumn({
     }
   }
 
-  function handleAddNewTask() {
-    const newTask: Task = {
-      id: String(Math.random()),
-      title: taskTitle,
-      description: taskDescription ?? "",
-      column: title,
-      deadline: date?.toISOString() ?? undefined,
-    }
-    //   console.log(
-    //     "Add new task with title: ",
-    //     taskTitle,
-    //     taskDescription,
-    //     assignedTo,
-    //     date
-    //   )
-    onAddTask(newTask)
-    setTaskTitle("")
-    setTaskDescription("")
-    setAssignedTo("")
-    setDate(undefined)
+  function getRandomId() {
+    return String(Math.random())
   }
 
   return (
@@ -113,81 +66,23 @@ export default function BoardColumn({
       <CardHeader>
         <CardTitle className="justify-between font-bold">{title}</CardTitle>
         <CardAction>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus />
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Neue Task erstellen</DialogTitle>
-                <DialogDescription>
-                  Erstelle eine neue Aufgabe für diese Spalte.
-                </DialogDescription>
-              </DialogHeader>
-              <div>
-                <span>Titel</span>
-                <Input
-                  value={taskTitle}
-                  onChange={(e) => setTaskTitle(e.target.value)}
-                />
-              </div>
-              <div>
-                <span>Beschreibung</span>
-                <Textarea
-                  value={taskDescription}
-                  onChange={(e) => setTaskDescription(e.target.value)}
-                />
-              </div>
-              <div>
-                <span>Zugewiesen an</span>
-                <Select value={assignedTo} onValueChange={setAssignedTo}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Theme" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="light">Light</SelectItem>
-                      <SelectItem value="dark">Dark</SelectItem>
-                      <SelectItem value="system">System</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col">
-                <span>Deadline</span>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      data-empty={!date}
-                      className="w-[280px] justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
-                    >
-                      <CalendarIcon />
-                      {date ? format(date, "PPP") : <span>Pick a date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-full p-0">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={setDate}
-                      defaultMonth={date}
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-              <DialogFooter>
-                <DialogClose>
-                  <Button variant={"outline"}>Abbrechen</Button>
-                </DialogClose>
-                <DialogClose>
-                  <Button onClick={handleAddNewTask}>Speichern</Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <Button variant="ghost" onClick={() => setIsTaskDialogOpen(true)}>
+            <Plus />
+          </Button>
+          <TaskDialog
+            open={isTaskDialogOpen}
+            handleOpenChange={setIsTaskDialogOpen}
+            onSubmitUpdate={onAddTask}
+            title="Neue Task erstellen"
+            description="Erstelle eine neue Aufgabe für diese Spalte."
+            task={{
+              id: getRandomId(),
+              title: "",
+              description: "",
+              column: title,
+              deadline: "",
+            }}
+          />
         </CardAction>
       </CardHeader>
       <CardContent>

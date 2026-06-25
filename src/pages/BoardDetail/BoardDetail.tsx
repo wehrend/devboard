@@ -110,6 +110,8 @@ export default function BoardDetail() {
           open={isEditTaskDialogOpen}
           onSubmitUpdate={(task) => {}}
           handleOpenChange={setIsEditTaskDialogOpen}
+          title="Task bearbeiten"
+          description="Hier die Task bearbeiten"
           task={
             editTask ?? { id: "", title: "", description: "", column: "ToDo" }
           }

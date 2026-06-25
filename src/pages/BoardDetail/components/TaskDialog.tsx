@@ -34,11 +34,15 @@ export default function TaskDialog({
   open,
   handleOpenChange,
   onSubmitUpdate,
+  title,
+  description,
   task,
 }: {
   open: boolean
   handleOpenChange: (open: boolean) => void
   onSubmitUpdate: (task: Task) => void
+  title: string
+  description: string
   task: Task
 }) {
   const [taskTitle, setTaskTitle] = useState<string>(task.title)
@@ -65,10 +69,8 @@ export default function TaskDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Task bearbeiten</DialogTitle>
-          <DialogDescription>
-            Bearbeite die ausgewählte Aufgabe.
-          </DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <div>
           <span>Titel</span>
