@@ -43,6 +43,10 @@ export default function BoardDetail() {
     setIsEditTaskDialogOpen(true)
   }
 
+  function handleUpdateTask(task: Task) {
+    dispatchBoard({ type: "UPDATE_TASK", data: task })
+  }
+
   function handleEditBoardTitle() {
     setIsEditingBoardName(true)
     setBoardName(board.title)
@@ -104,7 +108,7 @@ export default function BoardDetail() {
         <TaskDialog
           key={editTask?.id ?? "empty-0"}
           open={isEditTaskDialogOpen}
-          handleSubmitUpdate={(task) => {}}
+          onSubmitUpdate={(task) => {}}
           handleOpenChange={setIsEditTaskDialogOpen}
           task={
             editTask ?? { id: "", title: "", description: "", column: "ToDo" }

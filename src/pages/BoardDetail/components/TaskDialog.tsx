@@ -32,12 +32,12 @@ import { Textarea } from "src/components/ui/textarea"
 export default function TaskDialog({
   open,
   handleOpenChange,
-  handleSubmitUpdate,
+  onSubmitUpdate,
   task,
 }: {
   open: boolean
   handleOpenChange: (open: boolean) => void
-  handleSubmitUpdate: (task: Task) => void
+  onSubmitUpdate: (task: Task) => void
   task: Task
 }) {
   const [taskTitle, setTaskTitle] = useState<string>(task.title)
@@ -46,6 +46,17 @@ export default function TaskDialog({
   )
   const [assignedTo, setAssignedTo] = useState<string>(task.assignedTo)
   const [date, setDate] = useState<Date>(new Date(task.Deadline ?? new Date()))
+
+  function handleSubmitUpdate() {
+    const updatedTask: Task = {
+      ...task,
+      title: taskTitle,
+      description: taskDescription,
+      dateline: date.toISOString(),
+      column: task.column,
+    }
+    onSubmitUpdate(updatedTask)
+  }
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>

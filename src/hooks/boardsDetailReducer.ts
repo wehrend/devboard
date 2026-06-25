@@ -7,7 +7,7 @@ type BoardDetailAction =
       data: string
     }
   | {
-      type: "ADD_TASK" | "DELETE_TASK"
+      type: "ADD_TASK" | "DELETE_TASK" | "UPDATE_TASK"
       data: Task
     }
 
@@ -38,6 +38,18 @@ export function useBoardDetailReducer(
         (task) => task.id !== action.data.id
       )
       newState.tasks = newTasks
+      break
+    }
+    case "UPDATE_TASK": {
+      newState = { ...prevState }
+      const updateTasks = prevState.tasks.map((task) => {
+        if (task.id === action.data.id) {
+          return action.data
+        } else {
+          return task
+        }
+      })
+      newState.tasks = updateTasks
       break
     }
   }
