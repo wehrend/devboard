@@ -28,6 +28,7 @@ import {
 import { Button } from "src/components/ui/button"
 import { CalendarIcon } from "lucide-react"
 import { Textarea } from "src/components/ui/textarea"
+import type { Task } from "src/types/board.type"
 
 export default function TaskDialog({
   open,
@@ -44,15 +45,17 @@ export default function TaskDialog({
   const [taskDescription, setTaskDescription] = useState<string>(
     task.description ?? ""
   )
-  const [assignedTo, setAssignedTo] = useState<string>(task.assignedTo)
-  const [date, setDate] = useState<Date>(new Date(task.Deadline ?? new Date()))
+  const [assignedTo, setAssignedTo] = useState<string>(task.assignedTo ?? "")
+  const [date, setDate] = useState<Date | undefined>(
+    task.deadline ? new Date(task.deadline) : undefined
+  )
 
   function handleSubmitUpdate() {
     const updatedTask: Task = {
       ...task,
       title: taskTitle,
       description: taskDescription,
-      dateline: date.toISOString(),
+      deadline: date.toISOString(),
       column: task.column,
     }
     onSubmitUpdate(updatedTask)
@@ -106,7 +109,7 @@ export default function TaskDialog({
                 className="w-[280px] justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
               >
                 <CalendarIcon />
-                {date ? format(date, "PPP") : <span>Pick a date</span>}
+                {date ? format(date, "dd.MM.yyyy") : <span>Pick a date</span>}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-full p-0">

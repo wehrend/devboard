@@ -21,6 +21,7 @@ export default function TaskCard({
 }) {
   return (
     <Card
+      className="hover:cursor-pointer"
       draggable={true}
       onDragStart={(e) => e.dataTransfer.setData("taskId", task.id)}
       onClick={() => handleEditTask(task)}
@@ -37,7 +38,10 @@ export default function TaskCard({
           <Button
             variant="ghost"
             size="icon-lg"
-            onClick={() => onDeleteTask(task)}
+            onClick={(e) => {
+              e.stopPropagation()
+              onDeleteTask(task)
+            }}
           >
             <Trash2 />
           </Button>

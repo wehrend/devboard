@@ -196,15 +196,17 @@ export default function BoardColumn({
             Hier Ablegen
           </div>
         )}
-        {tasks.map((task) => {
-          return (
-            <TaskCard
-              onDeleteTask={onDeleteTask}
-              task={task}
-              handleEditTask={handleEditTask}
-            />
-          )
-        })}
+        <div className="flex flex-col gap-4">
+          {tasks.map((task) => {
+            return (
+              <TaskCard
+                onDeleteTask={onDeleteTask}
+                task={task}
+                handleEditTask={handleEditTask}
+              />
+            )
+          })}
+        </div>
       </CardContent>
 
       {/* <CardFooter>Footer </CardFooter> */}

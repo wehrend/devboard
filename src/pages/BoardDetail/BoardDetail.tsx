@@ -21,7 +21,7 @@ export default function BoardDetail() {
     tasks: [],
   }
 
-  const [isEditTaskDialogOpen, setIsEditTaskDialogOpen] = useState(true)
+  const [isEditTaskDialogOpen, setIsEditTaskDialogOpen] = useState(false)
   const [editTask, setEditTask] = useState<Task | undefined>()
 
   const [board, dispatchBoard] = useReducer(
