@@ -1,4 +1,4 @@
-import { use, useState } from "react"
+import { use, useContext, useState } from "react"
 import { Button } from "src/components/ui/button"
 import {
   Card,
@@ -7,9 +7,19 @@ import {
   CardHeader,
   CardTitle,
 } from "src/components/ui/card"
+import { UserNameContext } from "src/context/UserNameContext"
 
 export default function Profile() {
-  const [username, setUsername] = useState("Sven")
+  const context = useContext(UserNameContext)
+
+  const [username, setUsername] = useState(context?.userName ?? "")
+
+  function handleSubnmit() {
+    //Speicher im context
+    context?.setUserName(username)
+    //Speicher im localstorage
+    localStorage.setItem("kanban-user-name", username)
+  }
 
   return (
     <div className="max-w-md">
@@ -24,8 +34,14 @@ export default function Profile() {
         <CardContent>
           <div className="flex flex-col gap-1">
             <label>Benutzername</label>
-            <input id="username" value={username} />
-            <Button className="w-fit">Speichern</Button>
+            <input
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <Button className="w-fit" onClick={handleSubnmit}>
+              Speichern
+            </Button>
           </div>
         </CardContent>
       </Card>
