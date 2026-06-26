@@ -82,6 +82,14 @@ export default function BoardColumn({
     }
   }
 
+  const [newTaskId, setNewTaskId] = useState(String(Math.random()))
+
+  // Beim Schließen des Dialogs neue ID generieren:
+  function handleTaskDialogOpenChange(open: boolean) {
+    setIsTaskDialogOpen(open)
+    if (!open) setNewTaskId(String(Math.random()))
+  }
+
   function getRandomId() {
     return String(Math.random())
   }
@@ -101,8 +109,9 @@ export default function BoardColumn({
             <Plus />
           </Button>
           <TaskDialog
+            key={newTaskId}
             open={isTaskDialogOpen}
-            handleOpenChange={setIsTaskDialogOpen}
+            handleOpenChange={handleTaskDialogOpenChange}
             onSubmitUpdate={onAddTask}
             title="Neue Task erstellen"
             description="Erstelle eine neue Aufgabe für diese Spalte."

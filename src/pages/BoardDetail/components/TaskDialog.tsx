@@ -62,7 +62,7 @@ export default function TaskDialog({
       ...task,
       title: taskTitle,
       description: taskDescription,
-      deadline: date.toISOString(),
+      deadline: date ? date.toISOString() : "",
       assignedTo: assignedTo,
       column: task.column,
     }

@@ -57,14 +57,13 @@ export function useBoardDetailReducer(
       break
     }
     case "UPDATE_TASK_STATUS": {
-      newState = { ...prevState }
       const updatedTasks = prevState.tasks.map((task) => {
         if (task.id === action.data.id) {
-          task.column = action.data.newColumn
+          return { ...task, column: action.data.newColumn }
         }
         return task
       })
-      newState.tasks = updatedTasks
+      newState = { ...prevState, tasks: updatedTasks }
       break
     }
   }
