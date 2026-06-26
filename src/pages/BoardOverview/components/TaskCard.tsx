@@ -1,4 +1,4 @@
-import { Trash2 } from "lucide-react"
+import { Calendar, Circle, CircleUser, Trash2 } from "lucide-react"
 import { Button } from "../../../components/ui/button"
 import {
   Card,
@@ -31,11 +31,21 @@ export default function TaskCard({
     >
       <CardHeader>
         <CardTitle>{task.title}</CardTitle>
-        <CardDescription>
-          {task.description}
-          {task.deadline
-            ? new Date(task.deadline).toLocaleDateString("de-DE")
-            : ""}
+        <CardDescription className="flex flex-col">
+          <span>{task.description}</span>
+          {task.assignedTo && (
+            <span className="flex items-center gap-1">
+              {" "}
+              <CircleUser className="size-4" />
+              {task.assignedTo}
+            </span>
+          )}
+          <span className="flex items-center gap-1">
+            {task.deadline && <Calendar className="size-4" />}
+            {task.deadline
+              ? new Date(task.deadline).toLocaleDateString("de-DE")
+              : ""}
+          </span>
         </CardDescription>
         <CardAction>
           <Button
