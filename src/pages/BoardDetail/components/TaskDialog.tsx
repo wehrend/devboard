@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import {
   Dialog,
   DialogClose,
@@ -29,6 +29,7 @@ import { Button } from "src/components/ui/button"
 import { CalendarIcon } from "lucide-react"
 import { Textarea } from "src/components/ui/textarea"
 import type { Task } from "src/types/board.type"
+import { UserNameContext } from "src/context/UserNameContext"
 
 export default function TaskDialog({
   open,
@@ -45,11 +46,13 @@ export default function TaskDialog({
   description: string
   task: Task
 }) {
+  const context = useContext(UserNameContext)
+
   const [taskTitle, setTaskTitle] = useState<string>(task.title)
   const [taskDescription, setTaskDescription] = useState<string>(
     task.description ?? ""
   )
-  const [assignedTo, setAssignedTo] = useState<string>(task.assignedTo ?? "")
+  const [assignedTo, setAssignedTo] = useState<string>(task.assignedTo ?? " ")
   const [date, setDate] = useState<Date | undefined>(
     task.deadline ? new Date(task.deadline) : undefined
   )
@@ -60,6 +63,7 @@ export default function TaskDialog({
       title: taskTitle,
       description: taskDescription,
       deadline: date.toISOString(),
+      assignedTo: assignedTo,
       column: task.column,
     }
     onSubmitUpdate(updatedTask)
@@ -90,13 +94,14 @@ export default function TaskDialog({
           <span>Zugewiesen an</span>
           <Select value={assignedTo} onValueChange={setAssignedTo}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Theme" />
+              <SelectValue placeholder="Zugewiesen an" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="light">Light</SelectItem>
-                <SelectItem value="dark">Dark</SelectItem>
-                <SelectItem value="system">System</SelectItem>
+                <SelectItem value=" ">Keine Zuweisung</SelectItem>
+                <SelectItem value={context?.userName ?? "undefined"}>
+                  {context?.userName ?? "undefined"}
+                </SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
