@@ -133,9 +133,13 @@ export default function TaskDialog({
           <DialogClose>
             <Button variant={"outline"}>Abbrechen</Button>
           </DialogClose>
-          <DialogClose>
-            <Button onClick={handleSubmitUpdate}>Speichern</Button>
-          </DialogClose>
+          {taskTitle === "" ? (
+            <Button disabled>Speichern</Button>
+          ) : (
+            <DialogClose>
+              <Button onClick={handleSubmitUpdate}>Speichern</Button>
+            </DialogClose>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

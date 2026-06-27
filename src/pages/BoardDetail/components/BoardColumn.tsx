@@ -103,7 +103,10 @@ export default function BoardColumn({
       onDragLeave={() => setIsDragHover(false)}
     >
       <CardHeader>
-        <CardTitle className="justify-between font-bold">{title}</CardTitle>
+        <CardTitle className="justify-between font-bold">
+          {title}
+          <span className="ml-2 text-sm font-normal">{tasks.length}</span>
+        </CardTitle>
         <CardAction>
           <Button variant="ghost" onClick={() => setIsTaskDialogOpen(true)}>
             <Plus />
@@ -132,6 +135,9 @@ export default function BoardColumn({
           </div>
         )}
         <div className="flex flex-col gap-4">
+          {tasks.length === 0 && (
+            <p className="text-center text-sm">Keine Tasks</p>
+          )}
           {tasks.map((task) => {
             return (
               <TaskCard
