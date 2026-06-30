@@ -50,6 +50,7 @@ export default function BoardDetail() {
   }
 
   function handleUpdateTask(task: Task) {
+    console.log("Update")
     dispatchBoard({ type: "UPDATE_TASK", data: task })
   }
 
@@ -114,7 +115,7 @@ export default function BoardDetail() {
         <TaskDialog
           key={editTask?.id ?? "empty-0"}
           open={isEditTaskDialogOpen}
-          onSubmitUpdate={(task) => {}}
+          onSubmitUpdate={handleUpdateTask}
           handleOpenChange={setIsEditTaskDialogOpen}
           title="Task bearbeiten"
           description="Hier die Task bearbeiten"
