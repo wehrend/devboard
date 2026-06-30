@@ -91,19 +91,14 @@ export default function TaskDialog({
         </div>
         <div>
           <span>Zugewiesen an</span>
-          <Select value={assignedTo} onValueChange={setAssignedTo}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Zugewiesen an" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value=" ">Keine Zuweisung</SelectItem>
-                <SelectItem value={context?.userName ?? "undefined"}>
-                  {context?.userName ?? "undefined"}
-                </SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <select
+            value={assignedTo}
+            onChange={(e) => setAssignedTo(e.target.value)}
+            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none"
+          >
+            <option value=" ">Niemand</option>
+            <option value={context?.userName}>{context?.userName}</option>
+          </select>
         </div>
         <div className="flex flex-col">
           <span>Deadline</span>
