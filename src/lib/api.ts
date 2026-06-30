@@ -5,7 +5,7 @@ const LOCALSTORAGE_BOARDS_KEY = "boards"
 export function getBoards(): Board[] {
   const boardsStringified = localStorage.getItem(LOCALSTORAGE_BOARDS_KEY)
   if (boardsStringified) {
-    const boards: Boards[] = JSON.parse(boardsStringified) ?? []
+    const boards: Board[] = JSON.parse(boardsStringified) ?? []
     return boards
   }
   return []

@@ -4,9 +4,8 @@ import { Input } from "../../components/ui/input"
 import { Button } from "../../components/ui/button"
 import { Link, useParams } from "react-router-dom"
 import { useReducer, useState } from "react"
-import BoardCard from "../BoardOverview/components/BoardCard"
 import BoardColumn from "./components/BoardColumn"
-import type { Board, Task } from "src/types/board.type"
+import type { Task } from "src/types/board.type"
 import { getBoardById } from "src/lib/api"
 import { useBoardDetailReducer } from "src/hooks/boardsDetailReducer"
 import TaskDialog from "./components/TaskDialog"
@@ -83,7 +82,7 @@ export default function BoardDetail() {
           <Button
             variant="ghost"
             size="icon-lg"
-            onClick={() => setEditingBoardName(false)}
+            onClick={() => setIsEditingBoardName(false)}
           >
             <X />
           </Button>

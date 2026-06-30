@@ -1,6 +1,5 @@
 import { useReducer, useState } from "react"
 import { Button } from "../../components/ui/button"
-import { Card } from "../../components/ui/card"
 import BoardCard from "./components/BoardCard"
 import type { Board } from "src/types/board.type"
 import { Plus } from "lucide-react"
@@ -18,7 +17,6 @@ import {
 import { Input } from "src/components/ui/input"
 import { getBoards } from "src/lib/api"
 import { useBoardOverviewReducer } from "src/hooks/boardsOverviewReducer"
-import { data } from "react-router-dom"
 
 export default function BoardOverview() {
   const [boards, boardsDispatch] = useReducer(

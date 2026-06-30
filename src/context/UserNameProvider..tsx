@@ -11,7 +11,7 @@ export function UserNameProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <UserNameContext.Provider
-      value={{ userName: "Sven", setUserName: () => {} }}
+      value={{ userName: username, setUserName: setUserName }}
     >
       {children}
     </UserNameContext.Provider>

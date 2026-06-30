@@ -7,7 +7,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "src/components/ui/dialog"
 import { Input } from "src/components/ui/input"
 import {
