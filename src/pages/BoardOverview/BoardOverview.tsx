@@ -45,7 +45,7 @@ export default function BoardOverview() {
 
   return (
     <>
-      <div className="place-content-betwee flex flex-row">
+      <div className="place-content-between flex flex-row">
         <h1 className="text-xl font-bold">Meine Boards</h1>
         <Dialog>
           <DialogTrigger>
