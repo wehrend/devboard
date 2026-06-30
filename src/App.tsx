@@ -6,25 +6,29 @@ import Layout from "./components/layout/Layout"
 import { UserNameProvider } from "./context/UserNameProvider."
 
 export function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Layout />,
-      children: [
-        {
-          path: "/profile",
-          element: <Profile />,
-        },
-        {
-          path: "/boards",
-          children: [
-            { index: true, element: <BoardOverview /> },
-            { path: ":id", element: <BoardDetail /> },
-          ],
-        },
-      ],
-    },
-  ])
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: <Layout />,
+
+        children: [
+          {
+            path: "/profile",
+            element: <Profile />,
+          },
+          {
+            path: "/boards",
+            children: [
+              { index: true, element: <BoardOverview /> },
+              { path: ":id", element: <BoardDetail /> },
+            ],
+          },
+        ],
+      },
+    ],
+    { basename: "/devboard" }
+  )
 
   return (
     <UserNameProvider>
