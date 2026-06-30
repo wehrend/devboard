@@ -10,7 +10,7 @@ export default function Header() {
           className="flex flex-row items-center gap-2 text-lg text-blue-100"
         >
           <LayoutDashboard className="w5 h-5" />
-          Devkarriere
+          DevBoard
         </Link>
 
         <Link
