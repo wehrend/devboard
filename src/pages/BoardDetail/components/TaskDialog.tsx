@@ -16,14 +16,6 @@ import {
 } from "src/components/ui/popover"
 import { Calendar } from "src/components/ui/calendar"
 import { format } from "date-fns"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "src/components/ui/select"
 import { Button } from "src/components/ui/button"
 import { CalendarIcon } from "lucide-react"
 import { Textarea } from "src/components/ui/textarea"
