@@ -3,10 +3,15 @@ import type { Board } from "src/types/board.type"
 
 type BoardsOverviewState = Board[]
 
-type BoardsOverviewAction = {
-  type: "ADD" | "DELETE"
-  data: Board
-}
+type BoardsOverviewAction =
+  | {
+      type: "ADD" | "DELETE"
+      data: Board
+    }
+  | {
+      type: "SET"
+      data: Board[]
+    }
 
 export function useBoardOverviewReducer(
   prevState: BoardsOverviewState,
@@ -16,17 +21,22 @@ export function useBoardOverviewReducer(
   switch (action.type) {
     case "ADD": {
       newState = [...prevState, action.data]
+      saveBoards(newState)
       break
     }
     case "DELETE": {
       newState = prevState.filter((board) => board.id !== action.data.id)
       console.log(newState)
+      saveBoards(newState)
+      break
+    }
+    case "SET": {
+      newState = action.data
       break
     }
     default:
       break
   }
 
-  saveBoards(newState)
   return newState
 }

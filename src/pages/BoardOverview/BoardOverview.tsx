@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react"
+import { useEffect, useReducer, useState } from "react"
 import { Button } from "../../components/ui/button"
 import BoardCard from "./components/BoardCard"
 import type { Board } from "src/types/board.type"
@@ -19,13 +19,18 @@ import { getBoards } from "src/lib/api"
 import { useBoardOverviewReducer } from "src/hooks/boardsOverviewReducer"
 
 export default function BoardOverview() {
-  const [boards, boardsDispatch] = useReducer(
-    useBoardOverviewReducer,
-    [],
-    getBoards
-  )
+  const [boards, boardsDispatch] = useReducer(useBoardOverviewReducer, [])
 
   const [boardNameInput, setBoardNameInput] = useState("Neues Board")
+
+  async function fetchBoards() {
+    const boards = await getBoards()
+    boardsDispatch({ type: "SET", data: boards })
+  }
+
+  useEffect(() => {
+    fetchBoards()
+  }, [])
 
   function handleAddNewBoard() {
     const newBoard: Board = {
@@ -45,7 +50,7 @@ export default function BoardOverview() {
 
   return (
     <>
-      <div className="place-content-between flex flex-row">
+      <div className="flex flex-row place-content-between">
         <h1 className="text-xl font-bold">Meine Boards</h1>
         <Dialog>
           <DialogTrigger>
