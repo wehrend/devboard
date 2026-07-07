@@ -1,4 +1,3 @@
-import { saveBoards } from "src/lib/api"
 import type { Board } from "src/types/board.type"
 
 type BoardsOverviewState = Board[]
@@ -25,8 +24,6 @@ export function useBoardOverviewReducer(
     }
     case "DELETE": {
       newState = prevState.filter((board) => board.id !== action.data.id)
-      console.log(newState)
-      saveBoards(newState)
       break
     }
     case "SET": {

@@ -45,6 +45,14 @@ export function saveBoard(board: Board): void {
   saveBoards(updatedBoards)
 }
 
+export async function deleteBoard(id: string): Promise<void> {
+  const { error } = await supabase.from("Boards").delete().eq("id", id)
+  if (error) {
+    console.error("Error deleting Board: ", error)
+    throw error
+  }
+}
+
 export async function insertBoard(board: Board): Promise<Board | null> {
   const { data, error } = await supabase
     .from("Boards")

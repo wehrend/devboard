@@ -15,7 +15,7 @@ import {
   DialogTrigger,
 } from "src/components/ui/dialog"
 import { Input } from "src/components/ui/input"
-import { getBoards, insertBoard } from "src/lib/api"
+import { deleteBoard, getBoards, insertBoard } from "src/lib/api"
 import { useBoardOverviewReducer } from "src/hooks/boardsOverviewReducer"
 
 export default function BoardOverview() {
@@ -47,8 +47,16 @@ export default function BoardOverview() {
   }
 
   function handleDeleteBoard(id: string) {
-    console.log("delete board")
-    boardsDispatch({ type: "DELETE", data: { id: id, title: "", tasks: [] } })
+    try {
+      console.log("delete board with id", id)
+      deleteBoard(id)
+      boardsDispatch({
+        type: "DELETE",
+        data: { id: id, title: "", tasks: [], created_at: "" },
+      })
+    } catch (error) {
+      console.error("Error deleting board: ", error)
+    }
   }
 
   return (
