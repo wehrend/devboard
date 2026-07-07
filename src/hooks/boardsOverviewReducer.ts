@@ -21,7 +21,6 @@ export function useBoardOverviewReducer(
   switch (action.type) {
     case "ADD": {
       newState = [...prevState, action.data]
-      saveBoards(newState)
       break
     }
     case "DELETE": {

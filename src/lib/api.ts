@@ -6,7 +6,7 @@ const LOCALSTORAGE_BOARDS_KEY = "boards"
 export async function getBoards(): Promise<Board[]> {
   const { data: boards, error } = await supabase
     .from("Boards")
-    .select("*, tasks(*)")
+    .select("*, tasks:Tasks(*)")
   if (error) {
     console.error("Error fetching boards: ", error)
     return []
@@ -43,4 +43,18 @@ export function saveBoard(board: Board): void {
     }
   })
   saveBoards(updatedBoards)
+}
+
+export async function insertBoard(board: Board): Promise<Board | null> {
+  const { data, error } = await supabase
+    .from("Boards")
+    .insert({ title: board.title, created_at: board.created_at })
+    .select("*, tasks:Tasks(*)")
+    .single()
+
+  if (error) {
+    console.error("Error inserting board: ", error)
+    return null
+  }
+  return data
 }

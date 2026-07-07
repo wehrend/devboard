@@ -15,7 +15,7 @@ import {
   DialogTrigger,
 } from "src/components/ui/dialog"
 import { Input } from "src/components/ui/input"
-import { getBoards } from "src/lib/api"
+import { getBoards, insertBoard } from "src/lib/api"
 import { useBoardOverviewReducer } from "src/hooks/boardsOverviewReducer"
 
 export default function BoardOverview() {
@@ -32,15 +32,18 @@ export default function BoardOverview() {
     fetchBoards()
   }, [])
 
-  function handleAddNewBoard() {
+  async function handleAddNewBoard() {
     const newBoard: Board = {
-      id: String(Math.random()),
+      id: "",
       title: boardNameInput,
+      created_at: new Date().toISOString(),
       tasks: [],
     }
-
-    boardsDispatch({ type: "ADD", data: newBoard })
-    setBoardNameInput("")
+    const insertedBoard = await insertBoard(newBoard)
+    if (insertedBoard) {
+      boardsDispatch({ type: "ADD", data: insertedBoard })
+      setBoardNameInput("")
+    }
   }
 
   function handleDeleteBoard(id: string) {
