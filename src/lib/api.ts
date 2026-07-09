@@ -1,4 +1,4 @@
-import type { Board } from "src/types/board.type"
+import type { Board, UpdateBoard } from "src/types/board.type"
 import supabase from "./db"
 
 const LOCALSTORAGE_BOARDS_KEY = "boards"
@@ -24,7 +24,7 @@ export function getBoardsFromLocalstorage(): Board[] {
   return []
 }
 
-export async function getBoardById(id: string): Board | undefined {
+export async function getBoardById(id: string): Promise<Board | undefined> {
   const { data: board, error } = await supabase
     .from("Boards")
     .select("*, tasks:Tasks(*)")
@@ -71,6 +71,24 @@ export async function insertBoard(board: Board): Promise<Board | null> {
 
   if (error) {
     console.error("Error inserting board: ", error)
+    return null
+  }
+  return data
+}
+
+export async function updatedBoard(
+  id: string,
+  board: UpdateBoard
+): Promise<Board | null> {
+  const { data, error } = await supabase
+    .from("Boards")
+    .update(board)
+    .eq("id", id)
+    .select("*, tasks:Tasks(*)")
+    .single()
+
+  if (error) {
+    console.error("Error updating board: ", error)
     return null
   }
   return data

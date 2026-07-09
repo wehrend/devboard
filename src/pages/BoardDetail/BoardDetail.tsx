@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router-dom"
 import { useEffect, useReducer, useState } from "react"
 import BoardColumn from "./components/BoardColumn"
 import type { Board, Task } from "src/types/board.type"
-import { getBoardById } from "src/lib/api"
+import { getBoardById, updatedBoard } from "src/lib/api"
 import { useBoardDetailReducer } from "src/hooks/boardsDetailReducer"
 import TaskDialog from "./components/TaskDialog"
 
@@ -14,11 +14,7 @@ export default function BoardDetail() {
   const { id } = useParams()
   const [isEditingBoardName, setIsEditingBoardName] = useState(false)
   const [boardName, setBoardName] = useState("")
-  const [board, dispatchBoard] = useReducer(
-    useBoardDetailReducer,
-    boardFromLocalStorage
-  )
-  //const [board, setBoard] = useState<Board | undefined>()
+  const [board, dispatchBoard] = useReducer(useBoardDetailReducer)
 
   async function fetchBoard() {
     const board = await getBoardById(id ?? "")
@@ -66,9 +62,13 @@ export default function BoardDetail() {
     setBoardName(board.title)
   }
 
-  function handleSubmitEditBoardTitle() {
-    dispatchBoard({ type: "UPDATE_BOARD_NAME", data: boardName })
-    setIsEditingBoardName(false)
+  async function handleSubmitEditBoardTitle() {
+    if (!board) return
+    const updateBoard = await updatedBoard(board.id, { title: boardName })
+    if (updateBoard) {
+      dispatchBoard({ type: "UPDATE_BOARD_NAME", data: boardName })
+      setIsEditingBoardName(false)
+    }
   }
 
   function renderBoardDetailHeader() {
