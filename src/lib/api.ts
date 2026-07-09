@@ -24,9 +24,18 @@ export function getBoardsFromLocalstorage(): Board[] {
   return []
 }
 
-export function getBoardById(id: string): Board | undefined {
-  const boards = getBoardsFromLocalstorage()
-  return boards.find((board) => board.id === id)
+export async function getBoardById(id: string): Board | undefined {
+  const { data: board, error } = await supabase
+    .from("Boards")
+    .select("*, tasks:Tasks(*)")
+    .eq("id", id)
+    .single()
+
+  if (error) {
+    console.error("Error fetching Board by id: ", error)
+    return undefined
+  }
+  return board
 }
 
 export function saveBoards(boards: Board[]): void {

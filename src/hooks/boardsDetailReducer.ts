@@ -14,14 +14,23 @@ type BoardDetailAction =
       type: "UPDATE_TASK_STATUS"
       data: { id: string; newColumn: "ToDo" | "InProgress" | "Done" }
     }
+  | {
+      type: "SET_BOARD"
+      data: Board | undefined
+    }
 
 export function useBoardDetailReducer(
-  prevState: Board,
+  prevState: Board | undefined,
   action: BoardDetailAction
 ) {
   let newState = prevState
 
   switch (action.type) {
+    case "SET_BOARD": {
+      newState = action.data
+      break
+    }
+
     case "UPDATE_BOARD_NAME": {
       newState = {
         ...prevState,
@@ -67,6 +76,6 @@ export function useBoardDetailReducer(
       break
     }
   }
-  saveBoard(newState)
+  //saveBoard(newState)
   return newState
 }

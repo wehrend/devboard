@@ -3,9 +3,9 @@ import { Input } from "../../components/ui/input"
 
 import { Button } from "../../components/ui/button"
 import { Link, useParams } from "react-router-dom"
-import { useReducer, useState } from "react"
+import { useEffect, useReducer, useState } from "react"
 import BoardColumn from "./components/BoardColumn"
-import type { Task } from "src/types/board.type"
+import type { Board, Task } from "src/types/board.type"
 import { getBoardById } from "src/lib/api"
 import { useBoardDetailReducer } from "src/hooks/boardsDetailReducer"
 import TaskDialog from "./components/TaskDialog"
@@ -14,19 +14,27 @@ export default function BoardDetail() {
   const { id } = useParams()
   const [isEditingBoardName, setIsEditingBoardName] = useState(false)
   const [boardName, setBoardName] = useState("")
-  const boardFromLocalStorage = getBoardById(id ?? "") ?? {
-    id: "",
-    title: "",
-    tasks: [],
-  }
-
-  const [isEditTaskDialogOpen, setIsEditTaskDialogOpen] = useState(false)
-  const [editTask, setEditTask] = useState<Task | undefined>()
-
   const [board, dispatchBoard] = useReducer(
     useBoardDetailReducer,
     boardFromLocalStorage
   )
+  //const [board, setBoard] = useState<Board | undefined>()
+
+  async function fetchBoard() {
+    const board = await getBoardById(id ?? "")
+    dispatchBoard({ type: "SET_BOARD", data: board })
+  }
+
+  useEffect(() => {
+    fetchBoard()
+  }, [])
+
+  const [isEditTaskDialogOpen, setIsEditTaskDialogOpen] = useState(false)
+  const [editTask, setEditTask] = useState<Task | undefined>()
+
+  if (!board) {
+    return <div>Loading...</div>
+  }
 
   function handleAddTask(task: Task) {
     dispatchBoard({ type: "ADD_TASK", data: task })
