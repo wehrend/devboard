@@ -20,11 +20,18 @@ export default function BoardDetail() {
   const { id } = useParams()
   const [isEditingBoardName, setIsEditingBoardName] = useState(false)
   const [boardName, setBoardName] = useState("")
-  const [board, dispatchBoard] = useReducer(useBoardDetailReducer, undefined)
+  const [board, dispatchBoard] = useReducer(useBoardDetailReducer, {
+    title: "test",
+    created_at: "",
+    id: "",
+    tasks: [],
+  })
 
   async function fetchBoard() {
     const board = await getBoardById(id ?? "")
-    dispatchBoard({ type: "SET_BOARD", data: board })
+    if (board) {
+      dispatchBoard({ type: "SET_BOARD", data: board })
+    }
   }
 
   useEffect(() => {

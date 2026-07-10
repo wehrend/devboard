@@ -21,14 +21,14 @@ export async function getBoards(): Promise<Board[]> {
   return boards as Board[]
 }
 
-export function getBoardsFromLocalstorage(): Board[] {
-  const boardsStringified = localStorage.getItem(LOCALSTORAGE_BOARDS_KEY)
-  if (boardsStringified) {
-    const boards: Board[] = JSON.parse(boardsStringified) ?? []
-    return boards
-  }
-  return []
-}
+// export function getBoardsFromLocalstorage(): Board[] {
+//   const boardsStringified = localStorage.getItem(LOCALSTORAGE_BOARDS_KEY)
+//   if (boardsStringified) {
+//     const boards: Board[] = JSON.parse(boardsStringified) ?? []
+//     return boards
+//   }
+//   return []
+// }
 
 export async function getBoardById(id: string): Promise<Board | undefined> {
   const { data: board, error } = await supabase
@@ -48,8 +48,8 @@ export function saveBoards(boards: Board[]): void {
   localStorage.setItem(LOCALSTORAGE_BOARDS_KEY, JSON.stringify(boards))
 }
 
-export function saveBoard(board: Board): void {
-  const boards = getBoards()
+export async function saveBoard(board: Board): Promise<void> {
+  const boards = await getBoards()
   const updatedBoards = boards.map((b) => {
     if (b.id === board.id) {
       return board

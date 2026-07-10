@@ -25,7 +25,7 @@ export function useBoardDetailReducer(
   let newState = prevState
 
   if (!prevState) {
-    return
+    return newState
   }
 
   switch (action.type) {
