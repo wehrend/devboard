@@ -1,4 +1,10 @@
-import type { Board, CreateTask, Task, UpdateBoard } from "src/types/board.type"
+import type {
+  Board,
+  CreateTask,
+  Task,
+  UpdateBoard,
+  UpdateTask,
+} from "src/types/board.type"
 import supabase from "./db"
 
 const LOCALSTORAGE_BOARDS_KEY = "boards"
@@ -103,6 +109,24 @@ export async function insertTask(task: CreateTask): Promise<Task | null> {
 
   if (error) {
     console.error("Error inserting task: ", error)
+    throw error
+  }
+  return data as Task
+}
+
+export async function updateTask(
+  id: string,
+  task: UpdateTask
+): Promise<Task | null> {
+  const { data, error } = await supabase
+    .from("Tasks")
+    .update(task)
+    .eq("id", id)
+    .select("*")
+    .single()
+
+  if (error) {
+    console.error("Error updating task: ", error)
     throw error
   }
   return data as Task

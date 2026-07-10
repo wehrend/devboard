@@ -9,7 +9,7 @@ import {
 } from "../../../components/ui/card"
 import TaskCard from "../../BoardOverview/components/TaskCard"
 import { useState } from "react"
-import type { Task } from "src/types/board.type"
+import type { CreateTask, Task } from "src/types/board.type"
 import TaskDialog from "./TaskDialog"
 
 export default function BoardColumn({
@@ -22,7 +22,7 @@ export default function BoardColumn({
 }: {
   title: "ToDo" | "InProgress" | "Done"
   tasks: Task[]
-  onAddTask: (task: Task) => void
+  onAddTask: (task: CreateTask) => void
   onDeleteTask: (task: Task) => void
   onUpdateTaskStatus: (
     id: string,

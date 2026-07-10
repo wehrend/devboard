@@ -55,7 +55,7 @@ export default function TaskDialog({
       deadline: date ? date.toISOString() : "",
       assignedTo: assignedTo,
       column: task.column,
-      boardid: ""
+      boardid: task.boardid ?? "",
     }
     onSubmitUpdate(updatedTask)
   }

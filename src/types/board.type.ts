@@ -16,7 +16,9 @@ export type Task = Database["public"]["Tables"]["Tasks"]["Row"] & {
   column: "ToDo" | "InProgress" | "Done"
 }
 
-export type CreateTask = Omit<Task, "id" | "created_at">
+export type UpdateTask = Database["public"]["Tables"]["Tasks"]["Update"]
+
+export type CreateTask = Database["public"]["Tables"]["Tasks"]["Insert"]
 
 // export interface Task {
 //   id: string

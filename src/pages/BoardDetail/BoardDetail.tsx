@@ -5,7 +5,7 @@ import { Button } from "../../components/ui/button"
 import { Link, useParams } from "react-router-dom"
 import { useEffect, useReducer, useState } from "react"
 import BoardColumn from "./components/BoardColumn"
-import type { Board, Task } from "src/types/board.type"
+import type { Board, CreateTask, Task, UpdateTask } from "src/types/board.type"
 import { getBoardById, insertTask, updatedBoard } from "src/lib/api"
 import { useBoardDetailReducer } from "src/hooks/boardsDetailReducer"
 import TaskDialog from "./components/TaskDialog"
@@ -32,7 +32,7 @@ export default function BoardDetail() {
     return <div>Loading...</div>
   }
 
-  async function handleAddTask(task: Task) {
+  async function handleAddTask(task: CreateTask) {
     try {
       const insertedTask = await insertTask({
         ...task,
@@ -62,14 +62,23 @@ export default function BoardDetail() {
     setIsEditTaskDialogOpen(true)
   }
 
-  function handleUpdateTask(task: Task) {
-    console.log("Update")
-    dispatchBoard({ type: "UPDATE_TASK", data: task })
+  async function handleUpdateTask(task: UpdateTask) {
+    try {
+      const updatedTask = await updatedTask(editTask?.id ?? "", {
+        ...task,
+        boardid: board?.id ?? "",
+      })
+      if (updatedTask) {
+        dispatchBoard({ type: "UPDATE_TASK", data: updatedTask })
+      }
+    } catch (error: unknown) {
+      console.error("Error updating task: ", error)
+    }
   }
 
   function handleEditBoardTitle() {
     setIsEditingBoardName(true)
-    setBoardName(board.title)
+    setBoardName(board?.title ?? "")
   }
 
   async function handleSubmitEditBoardTitle() {
@@ -109,7 +118,7 @@ export default function BoardDetail() {
     } else {
       return (
         <>
-          <h1 className="text-2xl font-bold">{board.title}</h1>
+          <h1 className="text-2xl font-bold">{board?.title ?? ""}</h1>
           <Button variant="ghost" size="icon-lg" onClick={handleEditBoardTitle}>
             <Pencil />
           </Button>
@@ -137,7 +146,16 @@ export default function BoardDetail() {
           title="Task bearbeiten"
           description="Hier die Task bearbeiten"
           task={
-            editTask ?? { id: "", title: "", description: "", column: "ToDo" }
+            editTask ?? {
+              id: "",
+              title: "",
+              description: "",
+              column: "ToDo",
+              assignedTo: null,
+              deadline: "",
+              boardid: board.id ?? "",
+              created_at: new Date().toString(),
+            }
           }
         />
         <div className="mt-4 grid grid-cols-3 gap-4">
