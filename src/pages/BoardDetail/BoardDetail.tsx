@@ -1,4 +1,4 @@
-import { ArrowLeft, Pencil, Check, X } from "lucide-react"
+import { ArrowLeft, Pencil, Check, X, Columns } from "lucide-react"
 import { Input } from "../../components/ui/input"
 
 import { Button } from "../../components/ui/button"
@@ -60,11 +60,20 @@ export default function BoardDetail() {
       console.error("Error deleteing Task: ", error)
     }
   }
-  function handleUpdateTaskStatus(
+
+  async function handleUpdateTaskStatus(
     id: string,
     newColumn: "ToDo" | "InProgress" | "Done"
   ) {
-    dispatchBoard({ type: "UPDATE_TASK_STATUS", data: { id, newColumn } })
+    try {
+      await updateTask(id, { column: newColumn })
+      dispatchBoard({
+        type: "UPDATE_TASK_STATUS",
+        data: { id, newColumn },
+      })
+    } catch (error: unknown) {
+      console.error("Error on update task status: ", error)
+    }
   }
 
   function handleEditTask(task: Task) {
