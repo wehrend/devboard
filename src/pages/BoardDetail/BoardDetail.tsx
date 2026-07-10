@@ -20,7 +20,7 @@ export default function BoardDetail() {
   const { id } = useParams()
   const [isEditingBoardName, setIsEditingBoardName] = useState(false)
   const [boardName, setBoardName] = useState("")
-  const [board, dispatchBoard] = useReducer(useBoardDetailReducer)
+  const [board, dispatchBoard] = useReducer(useBoardDetailReducer, undefined)
 
   async function fetchBoard() {
     const board = await getBoardById(id ?? "")

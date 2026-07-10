@@ -15,14 +15,18 @@ type BoardDetailAction =
     }
   | {
       type: "SET_BOARD"
-      data: Board | undefined
+      data: Board
     }
 
 export function useBoardDetailReducer(
-  prevState: Board | undefined,
+  prevState: Board,
   action: BoardDetailAction
 ) {
   let newState = prevState
+
+  if (!prevState) {
+    return
+  }
 
   switch (action.type) {
     case "SET_BOARD": {

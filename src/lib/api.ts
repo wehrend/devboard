@@ -18,7 +18,7 @@ export async function getBoards(): Promise<Board[]> {
     return []
   }
   console.log("Fetched boards: ", boards)
-  return boards
+  return boards as Board[]
 }
 
 export function getBoardsFromLocalstorage(): Board[] {
