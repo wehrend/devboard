@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router-dom"
 import { useEffect, useReducer, useState } from "react"
 import BoardColumn from "./components/BoardColumn"
 import type { Board, Task } from "src/types/board.type"
-import { getBoardById, updatedBoard } from "src/lib/api"
+import { getBoardById, insertTask, updatedBoard } from "src/lib/api"
 import { useBoardDetailReducer } from "src/hooks/boardsDetailReducer"
 import TaskDialog from "./components/TaskDialog"
 
@@ -32,8 +32,18 @@ export default function BoardDetail() {
     return <div>Loading...</div>
   }
 
-  function handleAddTask(task: Task) {
-    dispatchBoard({ type: "ADD_TASK", data: task })
+  async function handleAddTask(task: Task) {
+    try {
+      const insertedTask = await insertTask({
+        ...task,
+        boardid: board?.id ?? "",
+      })
+      if (insertedTask) {
+        dispatchBoard({ type: "ADD_TASK", data: insertedTask })
+      }
+    } catch (error: unknown) {
+      console.error("Error adding Task: ", error)
+    }
   }
 
   function handleDeleteTask(task: Task) {

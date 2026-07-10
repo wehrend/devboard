@@ -12,11 +12,17 @@ export type Board = Database["public"]["Tables"]["Boards"]["Row"] & {
   tasks: Database["public"]["Tables"]["Tasks"]["Row"]
 }
 
-export interface Task {
-  id: string
-  title: string
+export type Task = Database["public"]["Tables"]["Tasks"]["Row"] & {
   column: "ToDo" | "InProgress" | "Done"
-  description?: string
-  assignedTo?: string
-  deadline?: string
 }
+
+export type CreateTask = Omit<Task, "id" | "created_at">
+
+// export interface Task {
+//   id: string
+//   title: string
+//   column: "ToDo" | "InProgress" | "Done"
+//   description?: string
+//   assignedTo?: string
+//   deadline?: string
+// }

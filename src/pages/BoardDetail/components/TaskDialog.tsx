@@ -19,7 +19,7 @@ import { format } from "date-fns"
 import { Button } from "src/components/ui/button"
 import { CalendarIcon } from "lucide-react"
 import { Textarea } from "src/components/ui/textarea"
-import type { Task } from "src/types/board.type"
+import type { CreateTask, Task } from "src/types/board.type"
 import { UserNameContext } from "src/context/UserNameContext"
 
 export default function TaskDialog({
@@ -32,7 +32,7 @@ export default function TaskDialog({
 }: {
   open: boolean
   handleOpenChange: (open: boolean) => void
-  onSubmitUpdate: (task: Task) => void
+  onSubmitUpdate: (task: CreateTask) => void
   title: string
   description: string
   task: Task
@@ -49,13 +49,13 @@ export default function TaskDialog({
   )
 
   function handleSubmitUpdate() {
-    const updatedTask: Task = {
-      ...task,
+    const updatedTask: CreateTask = {
       title: taskTitle,
       description: taskDescription,
       deadline: date ? date.toISOString() : "",
       assignedTo: assignedTo,
       column: task.column,
+      boardid: ""
     }
     onSubmitUpdate(updatedTask)
   }
