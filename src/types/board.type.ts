@@ -1,5 +1,3 @@
-import { Database } from "./supabase"
-
 export interface BoardLocalstorage {
   id: string
   title: string

@@ -1,4 +1,3 @@
-import { saveBoard } from "src/lib/api"
 import type { Board, Task } from "src/types/board.type"
 
 type BoardDetailAction =

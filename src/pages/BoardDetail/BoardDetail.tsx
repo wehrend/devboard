@@ -1,11 +1,11 @@
-import { ArrowLeft, Pencil, Check, X, Columns } from "lucide-react"
+import { ArrowLeft, Pencil, Check, X } from "lucide-react"
 import { Input } from "../../components/ui/input"
 
 import { Button } from "../../components/ui/button"
 import { Link, useParams } from "react-router-dom"
 import { useEffect, useReducer, useState } from "react"
 import BoardColumn from "./components/BoardColumn"
-import type { Board, CreateTask, Task, UpdateTask } from "src/types/board.type"
+import type { CreateTask, Task, UpdateTask } from "src/types/board.type"
 import {
   deleteTask,
   getBoardById,
