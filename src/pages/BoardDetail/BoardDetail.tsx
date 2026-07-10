@@ -6,7 +6,13 @@ import { Link, useParams } from "react-router-dom"
 import { useEffect, useReducer, useState } from "react"
 import BoardColumn from "./components/BoardColumn"
 import type { Board, CreateTask, Task, UpdateTask } from "src/types/board.type"
-import { getBoardById, insertTask, updatedBoard, updateTask } from "src/lib/api"
+import {
+  deleteTask,
+  getBoardById,
+  insertTask,
+  updatedBoard,
+  updateTask,
+} from "src/lib/api"
 import { useBoardDetailReducer } from "src/hooks/boardsDetailReducer"
 import TaskDialog from "./components/TaskDialog"
 
@@ -46,8 +52,13 @@ export default function BoardDetail() {
     }
   }
 
-  function handleDeleteTask(task: Task) {
-    dispatchBoard({ type: "DELETE_TASK", data: task })
+  async function handleDeleteTask(task: Task) {
+    try {
+      await deleteTask(task.id)
+      dispatchBoard({ type: "DELETE_TASK", data: task })
+    } catch (error: unknown) {
+      console.error("Error deleteing Task: ", error)
+    }
   }
   function handleUpdateTaskStatus(
     id: string,
