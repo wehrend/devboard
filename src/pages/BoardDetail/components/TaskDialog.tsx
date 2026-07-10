@@ -52,8 +52,8 @@ export default function TaskDialog({
     const updatedTask: CreateTask = {
       title: taskTitle,
       description: taskDescription,
-      deadline: date ? date.toISOString() : "",
-      assignedTo: assignedTo,
+      deadline: date ? date.toISOString() : null,
+      assignedTo: assignedTo === " "? null: assignedTo,
       column: task.column,
       boardid: task.boardid ?? "",
     }

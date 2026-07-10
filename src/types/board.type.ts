@@ -9,7 +9,7 @@ export interface BoardLocalstorage {
 export type UpdateBoard = Database["public"]["Tables"]["Boards"]["Update"]
 
 export type Board = Database["public"]["Tables"]["Boards"]["Row"] & {
-  tasks: Database["public"]["Tables"]["Tasks"]["Row"]
+  tasks: Task[]
 }
 
 export type Task = Database["public"]["Tables"]["Tasks"]["Row"] & {

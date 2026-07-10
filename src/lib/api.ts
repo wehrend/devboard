@@ -41,7 +41,7 @@ export async function getBoardById(id: string): Promise<Board | undefined> {
     console.error("Error fetching Board by id: ", error)
     return undefined
   }
-  return board
+  return board as Board
 }
 
 export function saveBoards(boards: Board[]): void {
@@ -79,7 +79,7 @@ export async function insertBoard(board: Board): Promise<Board | null> {
     console.error("Error inserting board: ", error)
     return null
   }
-  return data
+  return data as Board
 }
 
 export async function updatedBoard(
@@ -97,7 +97,7 @@ export async function updatedBoard(
     console.error("Error updating board: ", error)
     return null
   }
-  return data
+  return data as Board
 }
 
 export async function insertTask(task: CreateTask): Promise<Task | null> {

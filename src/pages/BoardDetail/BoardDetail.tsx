@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router-dom"
 import { useEffect, useReducer, useState } from "react"
 import BoardColumn from "./components/BoardColumn"
 import type { Board, CreateTask, Task, UpdateTask } from "src/types/board.type"
-import { getBoardById, insertTask, updatedBoard } from "src/lib/api"
+import { getBoardById, insertTask, updatedBoard, updateTask } from "src/lib/api"
 import { useBoardDetailReducer } from "src/hooks/boardsDetailReducer"
 import TaskDialog from "./components/TaskDialog"
 
@@ -64,7 +64,7 @@ export default function BoardDetail() {
 
   async function handleUpdateTask(task: UpdateTask) {
     try {
-      const updatedTask = await updatedTask(editTask?.id ?? "", {
+      const updatedTask = await updateTask(editTask?.id ?? "", {
         ...task,
         boardid: board?.id ?? "",
       })

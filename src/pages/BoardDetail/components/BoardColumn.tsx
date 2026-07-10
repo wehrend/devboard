@@ -123,7 +123,10 @@ export default function BoardColumn({
               title: "",
               description: "",
               column: title,
-              deadline: "",
+              deadline: null,
+              assignedTo: null,
+              boardid: "",
+              created_at: new Date().toString(),
             }}
           />
         </CardAction>
